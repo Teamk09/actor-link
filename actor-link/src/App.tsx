@@ -1,5 +1,7 @@
 import { useState } from 'react'
 import './App.css'
+import LinkPathDisplay from './components/LinkPathDisplay';
+import LinkPathModal from './components/LinkPathModal';
 
 function App() {
   const [actor1Name, setActor1Name] = useState('');
@@ -7,11 +9,15 @@ function App() {
   const [linkPath, setLinkPath] = useState<string[][] | null>(null);
   const [linkNumber, setLinkNumber] = useState<number | null>(null);
   const [error, setError] = useState<string | null>(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isLoading, setIsLoading] = useState(false); // NEW: Loading state
 
   const findLink = async () => {
-    setError(null); // Reset error state before making a new request
-    setLinkPath(null); // Reset linkPath state
-    setLinkNumber(null); // Reset linkNumber state
+    setError(null);
+    setLinkPath(null);
+    setLinkNumber(null);
+    setIsModalOpen(false);
+    setIsLoading(true); // NEW: Set loading to true before API call
 
     try {
       const response = await fetch('http://localhost:8080/api/actor-link', {
@@ -30,18 +36,26 @@ function App() {
       }
 
       const data = await response.json();
-      console.log("API Response:", data); // Log the response to the console for debugging
+      console.log("API Response:", data);
+
+      setIsLoading(false); // NEW: Set loading to false after API call success
 
       if (data.error) {
         setError(data.error);
       } else {
         setLinkPath(data.link_path);
         setLinkNumber(data.link_number);
+        setIsModalOpen(true);
       }
     } catch (e) {
+      setIsLoading(false); // NEW: Set loading to false after API call error
       setError(`Failed to fetch link: ${(e as Error).message}`);
-      console.error("Fetch error:", e); // Log the error to the console
+      console.error("Fetch error:", e);
     }
+  };
+
+  const closeModal = () => {
+    setIsModalOpen(false);
   };
 
   return (
@@ -68,20 +82,29 @@ function App() {
             onChange={(e) => setActor2Name(e.target.value)}
           />
         </div>
-        <button onClick={findLink}>Find Link</button>
+        <button onClick={findLink} disabled={isLoading}> {/* NEW: Disable button while loading */}
+          Find Link
+        </button>
       </div>
-      {error && <p className="error">Error: {error}</p>}
-      {linkPath && (
-        <div className="results">
-          <p>Link Number: {linkNumber}</p>
-          <p>Link Path: {linkPath.map(link => `[${link[0]}, ${link[1]}, ${link[2]}]`).join(' -> ')}</p>
+
+      {isLoading && ( // NEW: Conditionally render loading message
+        <div className="loading-message">
+          Finding link
+          <span className="loading-dots">
+            <span>.</span><span>.</span><span>.</span>
+          </span>
         </div>
+      )}
+
+      {error && <p className="error">Error: {error}</p>}
+      {isModalOpen && linkPath && (
+        <LinkPathModal linkPath={linkPath} onClose={closeModal} />
       )}
       <p className="read-the-docs">
         Enter two actor names to find the link between them.
       </p>
     </>
-  )
+  );
 }
 
 export default App
