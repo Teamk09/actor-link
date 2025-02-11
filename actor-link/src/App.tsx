@@ -1,6 +1,5 @@
 import { useState } from 'react'
 import './App.css'
-import LinkPathDisplay from './components/LinkPathDisplay';
 import LinkPathModal from './components/LinkPathModal';
 
 function App() {
@@ -48,7 +47,7 @@ function App() {
         setIsModalOpen(true);
       }
     } catch (e) {
-      setIsLoading(false); // NEW: Set loading to false after API call error
+      setIsLoading(false);
       setError(`Failed to fetch link: ${(e as Error).message}`);
       console.error("Fetch error:", e);
     }
