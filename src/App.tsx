@@ -17,7 +17,7 @@ function App() {
     setIsLoading(true); // NEW: Set loading to true before API call
 
     try {
-      const response = await fetch('http://localhost:8080/api/actor-link', {
+      const response = await fetch('https://td0hq1lco2.execute-api.us-east-1.amazonaws.com', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
