@@ -6,7 +6,6 @@ function App() {
   const [actor1Name, setActor1Name] = useState('');
   const [actor2Name, setActor2Name] = useState('');
   const [linkPath, setLinkPath] = useState<string[][] | null>(null);
-  const [linkNumber, setLinkNumber] = useState<number | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(false); // NEW: Loading state
@@ -14,7 +13,6 @@ function App() {
   const findLink = async () => {
     setError(null);
     setLinkPath(null);
-    setLinkNumber(null);
     setIsModalOpen(false);
     setIsLoading(true); // NEW: Set loading to true before API call
 
@@ -43,7 +41,6 @@ function App() {
         setError(data.error);
       } else {
         setLinkPath(data.link_path);
-        setLinkNumber(data.link_number);
         setIsModalOpen(true);
       }
     } catch (e) {
