@@ -1,9 +1,12 @@
 {
+  "homepage": "https://teamk09.github.io/actor-link",
   "name": "actor-link",
   "private": true,
   "version": "0.0.0",
   "type": "module",
   "scripts": {
+    "predeploy": "yarn dev",
+    "deploy": "gh-pages -d build",
     "dev": "vite",
     "build": "tsc -b && vite build",
     "lint": "eslint .",
