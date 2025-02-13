@@ -2,6 +2,10 @@ import { useState } from 'react'
 import './App.css'
 import LinkPathModal from './components/LinkPathModal';
 
+function capitalizeEachWord(str: string): string {
+  return str.toLowerCase().split(' ').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ');
+}
+
 function App() {
   const [actor1Name, setActor1Name] = useState('');
   const [actor2Name, setActor2Name] = useState('');
@@ -79,7 +83,7 @@ function App() {
             id="actor1"
             placeholder="Enter actor name"
             value={actor1Name}
-            onChange={(e) => setActor1Name(e.target.value)}
+            onChange={(e) => setActor1Name(capitalizeEachWord(e.target.value))}
           />
         </div>
         <div className="input-group">
@@ -89,7 +93,7 @@ function App() {
             id="actor2"
             placeholder="Enter actor name"
             value={actor2Name}
-            onChange={(e) => setActor2Name(e.target.value)}
+            onChange={(e) => setActor2Name(capitalizeEachWord(e.target.value))}
           />
         </div>
         <button onClick={findLink} disabled={isLoading}>
