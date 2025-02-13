@@ -3,7 +3,7 @@ import './App.css'
 import LinkPathModal from './components/LinkPathModal';
 
 function capitalizeEachWord(str: string): string {
-  return str.toLowerCase().split(' ').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ');
+  return str.split(' ').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ');
 }
 
 function App() {
