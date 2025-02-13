@@ -49,6 +49,7 @@
   align-items: center;
   gap: 20px;
   margin-bottom: 20px;
+  position: relative;
 }
 
 .input-group {
@@ -120,20 +121,24 @@
 .loading-message {
   color: #eee;
   font-size: 1.2em;
-  margin-top: 20px;
-  display: flex;
-  align-items: center;
-  justify-content: center; /* Center the text horizontally */
+  margin-top: 10px;
+  justify-content: center;
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 100%;
+  text-align: center;
 }
 
 .loading-dots {
-  display: inline-flex; /* Use inline-flex to keep dots in line */
+  display: inline-flex;
   margin-left: 5px;
 }
 
 .loading-dots span {
   animation: dot-pulse 1.5s infinite;
-  margin-left: 3px; /* Spacing between dots */
+  margin-left: 3px; 
 }
 
 .loading-dots span:nth-child(2) {

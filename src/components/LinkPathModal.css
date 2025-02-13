@@ -1,133 +1,176 @@
 .link-path-modal {
-    position: fixed;
-    z-index: 1000;
-    left: 0;
-    top: 0;
-    width: 100%;
-    height: 100%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-  }
+  position: fixed;
+  z-index: 1000;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
 
-  .link-path-modal {
-    position: fixed;
-    z-index: 1000;
-    left: 0;
-    top: 0;
-    width: 100%;
-    height: 100%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    overflow: hidden; /* Prevent scroll on the modal container */
-  }
+.link-path-modal {
+  position: fixed;
+  z-index: 1000;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+}
 
-  .modal-content {
-    background-color: rgba(3,3,3,0.8);
-    margin: 15% auto;
-    padding: 30px;
-    border: 1px solid #888;
-    width: 80%;
-    border-radius: 10px;
-    position: relative;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 25px;
-    max-height: 80vh;
-    overflow-y: auto; /* Enable vertical scrolling for content */
-    scrollbar-width: none; /* Firefox */
-    -ms-overflow-style: none;  /* IE and Edge */
-  }
+.modal-content {
+  background-color: rgba(3,3,3,0.8);
+  margin: 15% auto;
+  padding: 30px;
+  border: 1px solid #888;
+  width: 80%;
+  border-radius: 10px;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 25px;
+  max-height: 80vh;
+  overflow-y: auto;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+  opacity: 0;
+}
 
-  .modal-content::-webkit-scrollbar {
-    display: none; /* Chrome, Safari, and Opera */
+.modal-content::-webkit-scrollbar {
+  display: none;
+}
+
+.close-button-container {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  z-index: 1001;
+}
+
+.close-button {
+  color: #aaa;
+  font-size: 28px;
+  font-weight: bold;
+  cursor: pointer;
+  background: none;
+  border: none;
+  padding: 0;
+  line-height: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: auto;
+}
+
+.close-button:hover,
+.close-button:focus {
+  color: white;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+/* Media query for mobile devices - adjust as needed */
+@media (max-width: 768px) {
+  .close-button-container {
+    top: 0px;
+    right: 0px;
+    background-color: rgba(50, 50, 50, 0.8);
+    padding: 10px;
+    border-radius: 0 0 0 10px;
   }
 
   .close-button {
-    color: #aaa;
-    position: absolute;
-    top: 10px;
-    right: 20px;
-    font-size: 28px;
-    font-weight: bold;
-    cursor: pointer;
-    background: none;
-    border: none;
-  }
-
-  .close-button:hover,
-  .close-button:focus {
     color: white;
-    text-decoration: none;
-    cursor: pointer;
+    font-size: 24px;
   }
+}
+
+.link-segment {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.actor-box, .movie-box {
+  background-color: #4a4a4a;
+  color: #fff;
+  padding: 15px 25px;
+  border-radius: 8px;
+  min-width: 200px;
+  box-shadow: 5px 5px 8px rgba(0,0,0,0.4);
+  transition: background-color 0.3s ease, transform 0.3s ease;
+  margin-bottom: 10px;
+}
+
+.movie-box {
+  background-color: #646cff;
+}
+
+.actor-box:hover, .movie-box:hover {
+  background-color: #535bf2;
+  transform: scale(1.05);
+}
+
+.relation-text {
+  font-size: 1.2em;
+  color: #eee;
+  font-style: italic;
+  margin: 10px 0;
+  display: block;
+}
+
+.arrow {
+  font-size: 2em;
+  color: #eee;
+  margin: 20px 0;
+  display: block;
+}
 
 
-  .link-segment {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    text-align: center;
-    margin-bottom: 20px;
-  }
+.animated {
+  opacity: 0;
+  transform: translateY(20px);
+  animation-duration: 1.25s;
+  animation-fill-mode: forwards;
+  transition: opacity 1.25s ease, transform 1.25s ease;
+}
 
-  .actor-box, .movie-box {
-    background-color: #4a4a4a;
-    color: #fff;
-    padding: 15px 25px;
-    border-radius: 8px;
-    min-width: 200px;
-    box-shadow: 5px 5px 8px rgba(0,0,0,0.4);
-    transition: background-color 0.3s ease, transform 0.3s ease;
-    margin-bottom: 10px;
-  }
+.fade-in {
+  animation-name: fadeInOpacity;
+}
 
-  .movie-box {
-    background-color: #646cff;
-  }
-
-  .actor-box:hover, .movie-box:hover {
-    background-color: #535bf2;
-    transform: scale(1.05);
-  }
-
-  .relation-text {
-    font-size: 1.2em;
-    color: #eee;
-    font-style: italic;
-    margin: 10px 0;
-    display: block;
-  }
-
-  .arrow {
-    font-size: 2em;
-    color: #eee;
-    margin: 20px 0;
-    display: block;
-  }
-
-
-  .animated {
+@keyframes fadeInOpacity {
+  0% {
     opacity: 0;
     transform: translateY(20px);
-    animation-duration: 1.25s;
-    animation-fill-mode: forwards;
-    transition: opacity 1.25s ease, transform 1.25s ease;
   }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
 
-  .fade-in {
-    animation-name: fadeInOpacity;
-  }
 
-  @keyframes fadeInOpacity {
-    0% {
-      opacity: 0;
-      transform: translateY(20px);
-    }
-    100% {
-      opacity: 1;
-      transform: translateY(0);
-    }
+.fade-in-modal {
+  animation-name: fadeInModal;
+  animation-duration: 0.5s;
+  animation-fill-mode: forwards;
+  position: relative;
+}
+
+@keyframes fadeInModal {
+  0% {
+    opacity: 0;
   }
+  100% {
+    opacity: 1;
+  }
+}

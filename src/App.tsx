@@ -8,13 +8,21 @@ function App() {
   const [linkPath, setLinkPath] = useState<string[][] | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [isLoading, setIsLoading] = useState(false); // NEW: Loading state
+  const [isLoading, setIsLoading] = useState(false);
 
   const findLink = async () => {
+    if (actor1Name.trim().toLowerCase() === actor2Name.trim().toLowerCase()) {
+      setError("That's the same actor silly! 😂");
+      setLinkPath(null);
+      setIsModalOpen(true);
+      setIsLoading(false);
+      return;
+    }
+
     setError(null);
     setLinkPath(null);
     setIsModalOpen(false);
-    setIsLoading(true); // NEW: Set loading to true before API call
+    setIsLoading(true);
 
     try {
       const response = await fetch('https://o31j7genpi.execute-api.us-east-1.amazonaws.com/deploy/api/actor-link/', {
@@ -29,13 +37,17 @@ function App() {
       });
 
       if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
+        if (response.status === 404) {
+          setError("Actor not found!");
+        } else {
+          throw new Error(`HTTP error! status: ${response.status}`);
+        }
       }
 
       const data = await response.json();
       console.log("API Response:", data);
 
-      setIsLoading(false); // NEW: Set loading to false after API call success
+      setIsLoading(false);
 
       if (data.error) {
         setError(data.error);
@@ -52,53 +64,49 @@ function App() {
 
   const closeModal = () => {
     setIsModalOpen(false);
+    setLinkPath(null);
+    setError(null); // ADD THIS LINE: Reset the error state
   };
 
   return (
     <>
-      <h1>Actor Link</h1>
+    <h1>Actor Link</h1>
       <div className="input-area">
         <div className="input-group">
-          <label htmlFor="actor1">First Actor:</label>
+          <label htmlFor="actor1">Actor 1 Name:</label>
           <input
             type="text"
             id="actor1"
-            placeholder="Enter first actor's name"
+            placeholder="Enter actor name"
             value={actor1Name}
             onChange={(e) => setActor1Name(e.target.value)}
           />
         </div>
         <div className="input-group">
-          <label htmlFor="actor2">Second Actor:</label>
+          <label htmlFor="actor2">Actor 2 Name:</label>
           <input
             type="text"
             id="actor2"
-            placeholder="Enter second actor's name"
+            placeholder="Enter actor name"
             value={actor2Name}
             onChange={(e) => setActor2Name(e.target.value)}
           />
         </div>
-        <button onClick={findLink} disabled={isLoading}> {/* NEW: Disable button while loading */}
-          Find Link
+        <button onClick={findLink} disabled={isLoading}>
+          {isLoading ? 'Loading...' : 'Find Link'}
         </button>
+
+        {error && !isModalOpen && <div className="error">{error}</div>}
+        {isLoading && !error && <div className="loading-message">Loading...</div>}
       </div>
 
-      {isLoading && ( // NEW: Conditionally render loading message
-        <div className="loading-message">
-          Finding link
-          <span className="loading-dots">
-            <span>.</span><span>.</span><span>.</span>
-          </span>
-        </div>
+      {isModalOpen && (
+        <LinkPathModal
+          linkPath={linkPath}
+          onClose={closeModal}
+          error={error}
+        />
       )}
-
-      {error && <p className="error">Error: {error}</p>}
-      {isModalOpen && linkPath && (
-        <LinkPathModal linkPath={linkPath} onClose={closeModal} />
-      )}
-      <p className="read-the-docs">
-        Enter two actor names to find the link between them.
-      </p>
     </>
   );
 }
