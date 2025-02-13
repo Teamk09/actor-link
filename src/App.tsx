@@ -31,8 +31,8 @@ function App() {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          start_actor_name: actor1Name,
-          target_actor_name: actor2Name,
+          start_actor_name: actor1Name.trim(),
+          target_actor_name: actor2Name.trim(),
         }),
       });
 
